@@ -1,0 +1,32 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm-run-all dev:client dev:serve",
+    "dev:client": "cd client && npm run serve",
+    "dev:serve": "npm-run-all -s dev:client:serve dev:client:start",
+    "dev:client:serve": "cross-env  NODE_ENV=development webpack",
+    "dev:client:start": "node dist/index",
+    "build:client": " cd client &&  npm run build",
+    "build:serve": "cross-env NODE_ENV=production webpack ",
+    "build:start": "node dist/index",
+    "build": " npm-run-all -s build:serve  build:client  build:start"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
+    "querystring": "^0.2.1",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "css-loader": "^6.7.1",
+    "mockjs": "^1.1.0",
+    "style-loader": "^3.3.1"
+  }
+}

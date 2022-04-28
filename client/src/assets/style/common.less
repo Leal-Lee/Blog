@@ -1,0 +1,76 @@
+@import "./reset.css";
+
+html {
+    color: @words;
+    font-family: "-apple-system", "BlinkMacSystemFont", "Roboto", "Helvetica Neue",
+      "微软雅黑", sans-serif;
+    overflow: hidden;
+    height: 100%;
+
+  }
+  body {
+    overflow: hidden;
+    height: 100%;
+
+  }
+  
+  a {
+    color: inherit;
+    // &:hover {
+    //   color: @primary;
+      
+    // }
+  }
+  // Icon通用样式
+  .icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+    
+  }
+
+// less变量
+@danger: #cc3600; // 危险、错误
+@primary: #6b9eee; // 主色调、链接
+@words: #373737; // 大部分文字、深色文字
+@lightWords: #999; // 少部分文字、浅色文字
+@warn: #dc6a12; // 警告
+@success: #7ebf50; // 成功
+@gray: #b4b8bc; // 灰色
+@dark: #202020; // 深色
+@font:#feeeee;
+
+
+
+  //自我居中
+  .self-center(@position:absolute){
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50% ,-50%);
+  }
+  //自身充满父容器
+  .self-fill(){
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+// 弹性排列
+
+.flex(@justify:center,@align:center,@direction:row){
+display: flex;
+justify-content:@justify;   //主轴排列方式
+align-items: @align;//侧轴排列方式
+flex-direction: @direction;//主轴放向
+
+}
+
+// 自适应尺寸
+.size-auto(){
+  width: 100%;
+  height: 100%;  
+}
