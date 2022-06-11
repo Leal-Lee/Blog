@@ -17,7 +17,8 @@ exports.adminDao = async function (login) {
                         loginPwd: login.loginPwd
                     }
                 ]
-            }
+            },
+            attributes: { exclude: ['loginPwd','isSpuerAdmin'] }
         })
 
         return result ? result.toJSON() : null
@@ -43,6 +44,7 @@ exports.updateAdminDao = async function (updateInfo, login) {
                     }
                 ]
             },
+            attributes: { exclude: ['loginPwd'] }
 
         })
     } catch (err) {

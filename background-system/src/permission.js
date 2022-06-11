@@ -21,10 +21,10 @@ router.beforeEach(async(to, from, next) => {
      const hasGetUserInfo =store.getters.user
   if(to.meta.isNotAuth){
     // 不需要鉴权的直接通过
-    console.log('不需要鉴权',hasGetUserInfo)
+    // console.log('不需要鉴权',hasGetUserInfo)
     if(to.path=='/login'&& hasGetUserInfo){
     //  进入表上已经登录，要去登录页面，直接跳转到首页
-    console.log('已登录，直接跳转')
+    // console.log('已登录，直接跳转')
     next()
     setTimeout(()=>{
       next('/')
@@ -38,10 +38,10 @@ router.beforeEach(async(to, from, next) => {
   }else{
     // 需要鉴权
 
-    console.log('需要鉴权')
+    // console.log('需要鉴权')
     if(hasGetUserInfo){
       //有用户信息，登录成功，直接通过
-      console.log('有用户信息',hasGetUserInfo)
+      // console.log('有用户信息',hasGetUserInfo)
       // next(to.path)
       next()
     }
@@ -49,15 +49,15 @@ router.beforeEach(async(to, from, next) => {
     // 查看token
 
     const hasToken = getToken()
-    console.log('没有用户信息,查看有没有token',hasToken)
+    // console.log('没有用户信息,查看有没有token',hasToken)
     if(hasToken){
       // 有token
       // 验证token
        const data= await store.dispatch('user/whoami')
-      console.log(33333,data)
+      // console.log(33333,data)
       if(data){
         // 验证通过
-        console.log('token验证通过')
+        // console.log('token验证通过')
         next()
       }else{
         // 验证失败

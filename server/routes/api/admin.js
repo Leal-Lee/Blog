@@ -4,7 +4,7 @@ const {formatResqonse}= require('../../utils/tool')
 // 登录接口
 exports.login=async function(req, res, next) {
     //  处理验证码
-  console.log('发送了登录请求',req.body)
+ 
     // 验证账号密码
       try{
          

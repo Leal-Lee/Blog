@@ -10,21 +10,12 @@ const service = axios.create({
 
 
 
-
-
-
-
 // request interceptor
 service.interceptors.request.use(
 
   req=> {
-    console.log('请求拦截')
+
   
-    // if(req.headers.authentication){
-    //   // 获取token
-    //   console.log(response.data.data,'获取token')
-    //   getToken(response.headers.authentication)
-    // }
     return req
 
   }
@@ -35,13 +26,13 @@ service.interceptors.response.use(
 
   response => {
       //  登录的时候会附带authentication响应头
-      console.log('响应拦截')
+
     if(response.headers.authentication){
       // 设置token
-      console.log(response.data.data,'设置token')
+
       setToken(response.headers.authentication)
     }
-    console.log('拦截',response.data)
+
   return response.data.data
 
     // // if the custom code is not 20000, it is judged as an error.

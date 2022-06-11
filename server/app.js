@@ -2,14 +2,21 @@ var createError = require('http-errors');
 var express = require('express');
 var cors = require('cors')
 var path = require('path');
-// var cookieParser = require('cookie-parser');
+
 var logger = require('morgan');
 var md5=require('md5')
+
+// var uploadMiddleware = require('./utils/upload') //自定义的multer中间件
+
 var { expressjwt: jwt } = require("express-jwt");
 var {ForbiddenError} =require('./utils/error')
 // 引入路由
 var adminsRouter = require('./routes/adminsRouter'); 
 var bannerRouter = require('./routes/bannerRouter'); 
+var blogTypeRouter = require('./routes/blogTypeRouter'); 
+var blogRouter = require('./routes/blogRouter'); 
+var uploadMiddleware = require('./routes/uploadMiddleware'); 
+var deleteMiddleware = require('./routes/deleteMiddleware'); 
 require('express-async-errors');//处理异步错误
 require('dotenv').config() //把.env中代码注入环境变量中
 require('./dao/db') //导入初始化数据库
@@ -22,7 +29,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 // 使用express-jwt中间件,验证token
@@ -31,14 +38,24 @@ app.use(jwt({
   algorithms: ["HS256"],
 }).unless({ path: [
   {url:"/api/admin/login",method:'POST'},
-  {url:"/api/banner",method:'GET'}
+  {url:"/api/banner",method:'GET'},
+  {url:"/api/blogtype",method:'GET'},
+  {url:/^\/api\/blog(\/(\d+)?)?$/,method:'GET'},
+  {url:/^\/api\/blog[?][\w]+=[\w\W]+$/,method:'GET'},
+  
 ] }))
 // 使用路由中间件
 
+
+
+app.post('/api/upload', uploadMiddleware)
 app.use('/api/admin', adminsRouter);
 app.use('/api/banner', bannerRouter);
+app.use('/api/delete',deleteMiddleware)
+app.use('/api/blogtype', blogTypeRouter);
+app.use('/api/blog', blogRouter);
 
-// catch 404 and forward to error handler
+// 404页面
 app.use(function(req, res, next) {
   next(createError(404));
 });

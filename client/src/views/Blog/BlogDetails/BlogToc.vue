@@ -37,6 +37,8 @@ export default {
 
       return getToc(this.list);
     },
+
+    
     doms(){
       const doms=[]
       function getDom(list){

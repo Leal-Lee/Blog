@@ -36,7 +36,7 @@ async login({ commit }, userInfo) {
   // 我是谁
  async whoami({ commit, state }) {
  
-      console.log(getToken())
+     
       const data = await whoamiApi(getToken())
       commit('SET_USER',data)
 

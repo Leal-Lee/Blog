@@ -10,7 +10,6 @@ export  function loginApi(loginInfo) {
     headers:{'Content-Type':'application/json'}
   })
 
-
 }
 
 
@@ -20,7 +19,7 @@ export function whoamiApi(token) {
   return request({
     url: '/api/admin/whoami',
     method: 'get',
-    headers: { 'authorization':token }
+    headers: { 'Authorization':token }
   })
 }
 // 退出

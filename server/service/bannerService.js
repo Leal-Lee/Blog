@@ -14,8 +14,15 @@ exports.getBannerService=async function(){
  * @param {*} updateInfo 需要修改的数据，但必须包含ID，ID不可修改
  * @returns 
  */
+
 exports.setBannerService=async function(updateInfo){
-    await  setBannerDao(updateInfo.id,updateInfo)
+    const lastData={
+      midImg: updateInfo.midImg,
+      bigImg: updateInfo.bigImg,
+      title: updateInfo.title,
+      description:updateInfo.description
+    }
+    await  setBannerDao(updateInfo.id,lastData)
     let  data= await  getBannerDao()
    data= data.find((item)=>{
      

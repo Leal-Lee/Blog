@@ -15,11 +15,11 @@ exports.adminService = async function (res,next,loginInfo) {
       // data有值，登录成功，设置登录时间，生成token，将token和数据返回给路由
          if (data) {
          //    重置data数据
-             data = {
-                 id: data.id,
-                 loginId: data.loginId,
-                 name: data.name
-             }
+            //  data = {
+            //      id: data.id,
+            //      loginId: data.loginId,
+            //      name: data.name
+            //  }
              //生成token
           const token =   publishToken(res,data, +loginInfo.remember)
              

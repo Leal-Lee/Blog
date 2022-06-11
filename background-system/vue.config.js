@@ -28,8 +28,9 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:7001',
+        target: process.env.VUE_APP_SERVERPATH,
       },
+
 
     }
 

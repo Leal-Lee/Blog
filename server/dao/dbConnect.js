@@ -8,6 +8,14 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     dialect:'mysql',
     logging: false, 
   });
+
+
+
+
+  
+
+
+
   
 // 导出连接好的数据库实例
   module.exports= sequelize
