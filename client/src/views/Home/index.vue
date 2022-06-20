@@ -3,6 +3,7 @@
     <ul class="carouse-container" :style="{marginTop}" @transitionend="handleTransitionend">
       <li v-for="item in data" :key="item.id">
         <Carouseitem :data="item" :isShow="isShow" @showWords="showWords" />
+        
       </li>
     </ul>
 
@@ -76,10 +77,7 @@ export default {
 
   methods: {
 
-  //  async fetchData(){
-  //     return await getbanners();
-  //   },
-    
+
     switchTo(i) {
       if (this.index == i) {
         return;

@@ -82,3 +82,84 @@ if(errors[0]){
 return errors[0]
 
 }
+
+
+exports.projectValidate= function(obj,next){
+
+  const schema = new Schema({
+    name:{
+        type: String,
+        required: true,
+      },
+      description:{
+        type: String,
+        required: true,
+      },
+      url:{
+        type: String,
+        required: true,
+      },
+      thumb:{
+        type: String,
+        required: true,
+      },
+      github:{
+        type: String,
+        required: true,
+      },
+
+     order:{
+        type: Number,
+        required: true,
+      }  
+
+    })
+const errors=schema.validate(obj)
+if(errors[0]){
+  // 有错误
+
+  next( new ValidationError(errors[0].message)) 
+
+ }
+
+
+ 
+return errors[0]
+
+}
+
+
+exports.messageValidate= function(obj,next){
+
+  const schema = new Schema({
+    nickname:{
+        type: String,
+        required: true,
+      },
+      content:{
+        type: String,
+        required: true,
+      },
+      blogId:{
+        type: Number,
+        required: false,
+      },
+      avatar:{
+        type: String,
+        required: true,
+      }
+
+    })
+const errors=schema.validate(obj)
+if(errors[0]){
+  // 有错误
+
+  next( new ValidationError(errors[0].message)) 
+
+ }
+
+
+ 
+return errors[0]
+
+}

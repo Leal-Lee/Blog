@@ -5,12 +5,15 @@ const {formatResqonse} = require('./tool')
 //错误基类
 class ServiceError extends Error {
     constructor(code, message) {
+        
         super(message)
+       
         this.code = code
 
     }
 
     toResponseJSON() {
+        
         return formatResqonse(this.code, this.message, null)
     }
 }
@@ -30,7 +33,9 @@ exports.ForbiddenError = class extends ServiceError {
 
 // 验证错误
 exports.ValidationError = class extends ServiceError {
+
     constructor(message) {
+  
         super(406, message)
     }
 }

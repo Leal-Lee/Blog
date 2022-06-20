@@ -49,7 +49,7 @@ export default {
     this.x= this.distance.x/2
     this.y= this.distance.y/2
     window.addEventListener("resize",this.setSize)
-
+   
   },
     destroyed() {
     window.removeEventListener("resize",this.setSize);

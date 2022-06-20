@@ -24,11 +24,11 @@ export default {
       cxt.commit('setLoading',false)
       cxt.commit('setSetting',resp)
       const link = document.querySelector('link[rel="shortcut icon"]')
+      
      if(!link){
       // <link rel="shortcut icon" type="image/x-icon" href="images/logo.png"></link>
-  
-     const  link = document.createElement('link')
       
+     const  link = document.createElement('link')
       link.rel="shortcut icon",
       link.type="image/x-icon",
       link.href=resp.favicon,

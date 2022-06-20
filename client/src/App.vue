@@ -5,15 +5,16 @@
       <template #left>
         <div class="aside">
           <SiteAside/>
-        </div>
-        
+        </div> 
       </template>
+
       <template #main>
         <div class="main">
-         <RouterView/>
+         <RouterView :key="key"/>
         </div>
       </template>
     </Layout>
+
 <ToTop/>
   </div>
 </template>
@@ -34,6 +35,12 @@ export default {
 
     };
   },
+computed: {
+    key() {
+        return this.$route.name !== undefined? this.$route.name + +new Date(): this.$route + +new Date()
+    }
+ },
+
 
   mounted() {
 

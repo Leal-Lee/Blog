@@ -1,9 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize  =  require('../dbConnect')
-const BlogType  =  require('./blogTypeModel')
 
-const Blog = sequelize.define('Blog',{
-    title:{
+const Project = sequelize.define('Project',{
+   name:{
         type:DataTypes.STRING,
         allowNull:false
     },
@@ -11,7 +10,7 @@ const Blog = sequelize.define('Blog',{
         type:DataTypes.STRING,
         allowNull:false
     },
-    htmlContent:{
+    url:{
         type:DataTypes.STRING,
         allowNull:false
     },
@@ -19,36 +18,23 @@ const Blog = sequelize.define('Blog',{
         type:DataTypes.STRING,
         allowNull:false
     },
-    toc:{
-        type:DataTypes.TEXT,
+    github:{
+        type:DataTypes.STRING,
         allowNull:false
     },
-    scanNumber:{
-        type:DataTypes.INTEGER,
-        allowNull:false
-    },
-    commentNumber:{
+    order:{
         type:DataTypes.INTEGER,
         allowNull:false
     }
+
 
 },{
     freezeTableName:true,
     updatedAt:false,
     createdAt:'createDate',
     paranoid: true
-
 })
 
-BlogType.hasMany(Blog,{
-    foreignKey: 'categoryId'
-  });
-
-Blog.belongsTo(BlogType,{
-    as:'category'
-  });
 
   
-
-  
-module.exports = Blog
+module.exports = Project

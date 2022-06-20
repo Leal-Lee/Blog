@@ -22,6 +22,11 @@ export default {
         cxt.commit('setLoading',true)
     
         const resp = await getBanners()
+
+        resp.forEach((item) => {
+          item.midImg = process.env.VUE_APP_SERVERPATH + item.midImg;
+          item.bigImg = process.env.VUE_APP_SERVERPATH + item.bigImg;
+        });
         cxt.commit('setLoading',false)
         cxt.commit('setBanner',resp)
         }

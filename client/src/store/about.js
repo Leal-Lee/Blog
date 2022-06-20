@@ -21,6 +21,7 @@ export default {
       }
       ctx.commit("setLoading", true);
       const resp = await getAbout();
+      
       ctx.commit("setData", resp);
       ctx.commit("setLoading", false);
     },

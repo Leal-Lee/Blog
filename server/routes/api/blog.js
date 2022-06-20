@@ -17,6 +17,7 @@ exports.addBlog=async function(req, res, next) {
 
     try{
         const data= await addBlogService(req.body,next)
+       
         res.send(data)
     }catch(err){
        res.send(new ValidationError(err).toResponseJSON())

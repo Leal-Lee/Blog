@@ -1,5 +1,5 @@
 <template>
-  <div class="about-container" v-loading="loading || !srcLoaded">
+  <div class="about-container"  v-loading="loading || !srcLoaded">
     <iframe
       v-if="src"
       class="about-content"

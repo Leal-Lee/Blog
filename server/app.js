@@ -13,8 +13,12 @@ var {ForbiddenError} =require('./utils/error')
 // 引入路由
 var adminsRouter = require('./routes/adminsRouter'); 
 var bannerRouter = require('./routes/bannerRouter'); 
+var settingRouter = require('./routes/settingRouter'); 
+var aboutRouter = require('./routes/aboutRouter'); 
 var blogTypeRouter = require('./routes/blogTypeRouter'); 
 var blogRouter = require('./routes/blogRouter'); 
+var messageRouter = require('./routes/messageRouter'); 
+var projectRouter = require('./routes/projectRouter'); 
 var uploadMiddleware = require('./routes/uploadMiddleware'); 
 var deleteMiddleware = require('./routes/deleteMiddleware'); 
 require('express-async-errors');//处理异步错误
@@ -39,7 +43,12 @@ app.use(jwt({
 }).unless({ path: [
   {url:"/api/admin/login",method:'POST'},
   {url:"/api/banner",method:'GET'},
+  {url:"/api/setting",method:'GET'},
+  {url:"/api/about",method:'GET'},
+  {url:"/api/project",method:'GET'},
   {url:"/api/blogtype",method:'GET'},
+  {url:"/api/message",method:['GET','POST']},
+  {url:"/api/comment",method:['GET','POST']},
   {url:/^\/api\/blog(\/(\d+)?)?$/,method:'GET'},
   {url:/^\/api\/blog[?][\w]+=[\w\W]+$/,method:'GET'},
   
@@ -51,9 +60,14 @@ app.use(jwt({
 app.post('/api/upload', uploadMiddleware)
 app.use('/api/admin', adminsRouter);
 app.use('/api/banner', bannerRouter);
+app.use('/api/setting', settingRouter);
+app.use('/api/about', aboutRouter);
 app.use('/api/delete',deleteMiddleware)
 app.use('/api/blogtype', blogTypeRouter);
 app.use('/api/blog', blogRouter);
+app.use('/api/project', projectRouter);
+app.use('/api/message', messageRouter);
+app.use('/api/comment', messageRouter);
 
 // 404页面
 app.use(function(req, res, next) {

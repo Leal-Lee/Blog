@@ -3,6 +3,9 @@ const {putBlogTypeDao,getOneBlogTypeDao}=require('../dao/blogTypeDao')
 const {formatResqonse}= require('../utils/tool')
 const {blogValidate} =require('../utils/validate')
 const {ValidationError} =require('../utils/error')
+const {handleToc}= require('../utils/handleToc')
+
+
 
 // 分页获取博客
 exports.getBlogsService=async function(query){
@@ -15,10 +18,10 @@ exports.getBlogsService=async function(query){
 // 添加博客
 exports.addBlogService=async function(blogInfo,next){
 // 处理TOC
- 
+console.log(`${blogInfo.markdownContent}`)
+blogInfo.toc= handleToc(`${blogInfo.markdownContent}`)
 blogInfo.scanNumber=0
 blogInfo.commentNumber=0
-blogInfo.toc='[]'
  // 修改分类中的文章数量
  let result =await  getOneBlogTypeDao(blogInfo.categoryId)
  
@@ -38,6 +41,7 @@ blogInfo.toc='[]'
 
 // 验证通过， 添加
   const  data= await addBlogDao(blogInfo)
+ 
 
   return formatResqonse(0,'',data)
 
@@ -49,6 +53,7 @@ exports.getOneBlogService=async function(id,authorization){
 try{
 
   const   data= await  getOneBlogDao(id)
+  
   if(!authorization){
     // 如果不存在，则表明是前台在获取数据，浏览数增加
     data.scanNumber++
@@ -73,9 +78,13 @@ exports.deleteBlog =async function(id){
     }
     const oldType =await getOneBlogTypeDao(oldAtc.category.id)//删除前的分类
     oldType.articleCount--
-   //修改分类，文章数量减少
+  
+  //  修改分类，文章数量减少
     await putBlogTypeDao(oldType.id,oldType)
-   //修改评论，评论数量减少
+   //删除该博客下的所有评论
+  //  await deleteMessageDao(id)
+
+
     const  data = await  deleteBlogDao(id)
   
       if(data !==0)return formatResqonse(0,'',true)
@@ -88,7 +97,7 @@ exports.deleteBlog =async function(id){
 
 //修改
 exports.putBlog =async function(id,updateInfo){
-
+  updateInfo.toc=handleToc(updateInfo.toc)
  const oldAtc= await getOneBlogDao(id)  //修改前的文章
  const result = await putBlogDao(id,updateInfo)
  console.log(result)
