@@ -13,6 +13,7 @@ export default function mixins(defaultDatas)  {
           },
           async created() {
             this.datas = await this.fetchData();
+            
             this.isLoading=false
           },
     }

@@ -5,7 +5,7 @@ const {setSetting,getSetting} =require('./api/setting')
 /**
  * 设置全局设置
  */
-router.post('/',setSetting);
+router.put('/',setSetting);
 
 // 获取全局设置
 router.get('/',getSetting);

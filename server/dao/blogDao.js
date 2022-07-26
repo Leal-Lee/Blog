@@ -8,21 +8,28 @@ const {
 
 // 添加博客
 exports.addBlogDao = async function (blogInfo) {
+try{
+    const  data =  await Blog.create(blogInfo)
+    return data.toJSON()
+}catch(err){
+    console.log(err)
+}
 
- const  data =  await Blog.create(blogInfo)
- return data.toJSON()
 }
 
 // 分页获取博客
 
 exports.getBlogsDao = async function ({page=1,limit=10,keyword='',categoryId=-1}) {
-
     try{
         // 如果带了categoryId参数，则按照文章分类查询
         if(categoryId!=-1&&categoryId){
             const result = await Blog.findAndCountAll({ 
                 where:{
-                    categoryId,
+                    [Op.and]: [
+                        { categoryId },
+                        { isDraft:false }
+                      ]
+                    
                 },
                 attributes: { exclude: ['deletedAt'] },
                 order:[['createDate', 'DESC']],
@@ -33,15 +40,17 @@ exports.getBlogsDao = async function ({page=1,limit=10,keyword='',categoryId=-1}
                          model: BlogType,
                          as:'category',
                          attributes: ['id',"name"] 
-    
                    }]
             })
-
             return result ? result:null
         }
         // 没带categoryId参数，则如果有关键字则按照关键字查询，没有关键字则查询全部
         const result = await Blog.findAndCountAll({ 
+            where:{
+                  isDraft:false 
+            },
             attributes: { exclude: ['deletedAt'] },
+
             order:[['createDate', 'DESC']],
             offset:(page-1)*(+limit), 
             limit:+limit,
@@ -61,8 +70,65 @@ exports.getBlogsDao = async function ({page=1,limit=10,keyword='',categoryId=-1}
         throw new Error(err)
     }
 
+}
+
+
+// 分页获取草稿
+
+exports.getDraftBlogsDao = async function ({page=1,limit=10,keyword='',categoryId=-1}) {
+    try{
+        // 如果带了categoryId参数，则按照文章分类查询
+        if(categoryId!=-1&&categoryId){
+            const result = await Blog.findAndCountAll({ 
+                where:{
+                    [Op.and]: [
+                        { categoryId },
+                        { isDraft:true }
+                      ]
+                    
+                },
+                attributes: { exclude: ['deletedAt'] },
+                order:[['createDate', 'DESC']],
+                offset:(page-1)*+limit, 
+                limit:+limit,
+                include: [
+                    {
+                         model: BlogType,
+                         as:'category',
+                         attributes: ['id',"name"] 
+                   }]
+            })
+            return result ? result:null
+        }
+        // 没带categoryId参数，则如果有关键字则按照关键字查询，没有关键字则查询全部
+        const result = await Blog.findAndCountAll({ 
+            where:{
+                  isDraft:true 
+            },
+            attributes: { exclude: ['deletedAt'] },
+
+            order:[['createDate', 'DESC']],
+            offset:(page-1)*(+limit), 
+            limit:+limit,
+            include: [
+                {
+                     model: BlogType,
+                     as:'category',
+                     attributes: ['id',"name"] ,
+                     where: {name:{[Op.like]:`%${keyword}%`} },
+    
+               }]
+        })
+  
+        return result ? result:null
+    }catch(err){
+        
+        throw new Error(err)
+    }
 
 }
+
+
 // 获取某一个博客
 
 exports.getOneBlogDao =async function (id) {

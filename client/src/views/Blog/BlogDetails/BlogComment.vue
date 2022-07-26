@@ -3,7 +3,7 @@
     <Message
       :commentList="datas.rows"
       title="全部评论"
-      :subTitle="datas.total"
+      :subTitle="datas.count"
       :isListLoading="isLoading"
       @submit="handleSbumit"
     />
@@ -19,7 +19,7 @@ import { getComment,postComment } from "@/api/blog.js";
 export default {
   name: "BlogBlogcomment",
 
-  mixins: [mixins({ total: 0, rows: [] })],
+  mixins: [mixins({ count: 0, rows:[] })],
   components: {
     Message,
   },
@@ -29,11 +29,19 @@ export default {
       options :{
         page: 1,
         limit: 10,
-        blogid: this.$route.params.blogId,
+        blogId: +this.$route.params.blogId,
       }
     };
   },
-
+ computed:{
+  hasMore(){
+  
+    if(!this.datas.rows){
+    return
+    }
+    return this.datas.rows.length < this.datas.count
+  }
+ },
   mounted() {
   
   this.$bus.$on('mainscroll',this.handlScroll)
@@ -44,8 +52,17 @@ export default {
   },
   methods: {
     async fetchData() {
+     
+    const data =  await getComment(this.options);
+   
+    if(typeof data == 'string'){
+      return this.datas
 
-      return await getComment(this.options);
+    }
+    data.rows.forEach(item => {
+      item.avatar=process.env.VUE_APP_SERVERPATH+item.avatar
+    });
+      return data
     },
     handlScroll(dom){
       if(this.isLoading ||!dom){
@@ -60,13 +77,14 @@ export default {
     },
 
     async fetchMore(){
-      if(this.datas.rows.length > this.datas.total){
+      if(!this.hasMore){
+       
         return
       }
     this.options.page++
     this.isLoading=true
     const res= await getComment(this.options);
-    this.datas.total=res.total
+    this.datas.count=res.count
     this.isLoading=false
     return this.datas.rows = this.datas.rows.concat(res.rows)
 
@@ -75,11 +93,14 @@ export default {
   async  handleSbumit(formData,callback){
          
        const resp= await  postComment({
-            blogId:this.$route.params.blogId,
+            blogId:+this.$route.params.blogId,
             ...formData
             })
+
+         resp.avatar=process.env.VUE_APP_SERVERPATH + resp.avatar   
+     
         this.datas.rows.unshift(resp)
-        this.datas.total++
+        this.datas.count++
         callback('评论成功')
     }
   },

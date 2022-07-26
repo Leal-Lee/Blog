@@ -4,9 +4,9 @@ var {MessageValidate} =require('../../utils/validate')
 // 获取Message
 exports.getMessages=async function(req, res, next) {
 
- 
+
  const data= await getMessagesService(req.query)
-   
+ 
     res.send(data) 
   }
 

@@ -52,7 +52,7 @@ export default {
   methods: {
     async fetchData() {
       const resp= await getBlog(this.$route.params.blogId);
-      
+     
       if(!resp){
         this.$router.push('/404')
         return

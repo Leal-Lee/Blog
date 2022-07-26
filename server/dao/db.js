@@ -20,11 +20,13 @@ const md5 = require('md5');
     }
   
   //  初始化 《未分类》 博客分类
+  const BlogTypeCount= await BlogType.count()
+  if(!BlogTypeCount){
    await BlogType.create({
      name:'未分类',
      order:1,
      articleCount:0
-   })
+   })}
 //    初始化管理员
    const adminCount= await Admin.count()
     if(!adminCount){
@@ -71,9 +73,9 @@ if(!settingCount){
     await  Setting.create(
         {
           avatar: "http://www.duyiedu.com/source/img/logo.png", // 博主照片
-          siteTitle: "袁进的空间", // 网站标题
+          siteTitle: "leal的空间", // 网站标题
           github: "https://github.com/DuYi-Edu", // 博主github主页
-          qq: "3263023350", // 博主 qq
+          qq: "27304938", // 博主 qq
           qqQrCode: "http://www.duyiedu.com/source/img/%E5%B0%8F%E6%B8%A1%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.png", // 博主qq二维码
           weixin: "yh777bao", // 博主微信号
           weixinQrCode: "http://www.duyiedu.com/source/img/%E5%85%AC%E4%BC%97%E5%8F%B7%E4%BA%8C%E7%BB%B4%E7%A0%81.png", // 博主微信二维码

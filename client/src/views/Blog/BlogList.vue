@@ -56,15 +56,9 @@ export default {
   data() {
     return {
 
-    
-
-      
     };
   },
 
-  async mounted() {
-
-  },
  computed:{
   routInfo(){
     const limit=+this.$route.query.limit || 6
@@ -116,7 +110,6 @@ export default {
   watch:{
     $route:{
       handler:async function () { 
-      
       this.isLoading=true
       this.datas = await this.fetchData()
       this.isLoading=false

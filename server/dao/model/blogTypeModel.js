@@ -19,7 +19,7 @@ const BlogType = sequelize.define('BlogType',{
     freezeTableName:true,
     updatedAt:false,
     createdAt:false,
-    paranoid: true
+    // paranoid: true
 
 })
 

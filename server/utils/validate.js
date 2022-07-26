@@ -16,6 +16,14 @@ exports.blogTypeValidate=function(obj,next){
           type: Number,
           required: true,
         },
+        id:{
+          type: Number,
+          
+        },
+        articleCount:{
+          type: Number,
+          
+        },
       })
   const errors=schema.validate(obj)
   if(errors[0]){
@@ -48,7 +56,7 @@ exports.blogValidate= function(obj,next){
       },
       thumb:{
         type: String,
-        required: true,
+       
       },
       toc:{
         type: String,
@@ -58,7 +66,11 @@ exports.blogValidate= function(obj,next){
       scanNumber:{
         type: Number,
         required: true,
-      },      
+      },    
+      isDraft:{
+        type: Boolean,
+        required: true,
+      },   
       commentNumber:{
         type: Number,
         required: true,
@@ -101,7 +113,7 @@ exports.projectValidate= function(obj,next){
       },
       thumb:{
         type: String,
-        required: true,
+        
       },
       github:{
         type: String,

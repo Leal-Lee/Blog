@@ -1,12 +1,14 @@
+
 <template>
   <div class="blog-message-container" id='message' ref="message" >
     <Message
       :commentList="datas.rows"
       title="全部留言"
-      :subTitle="datas.total"
+      :subTitle="datas.count"
       :isListLoading="isLoading"
       @submit="handleSbumit"
     />
+
     <div class="loading" v-loading='isLoading'></div>
   </div>
 </template>
@@ -20,7 +22,7 @@ import { getMessage,postMessage } from "@/api/message.js";
 export default {
   name: "BlogBlogmessage",
 
-  mixins: [mixins({ total: 0, rows: [] }),mainScroll('message')],
+  mixins: [mixins({ count: 0, rows: [] }),mainScroll('message')],
   components: {
     Message,
   },
@@ -33,6 +35,11 @@ export default {
       }
     };
   },
+ computed:{
+  hasMore(){
+    return this.datas.rows.length < this.datas.count
+  }
+ },
 
   mounted() {
   
@@ -44,8 +51,18 @@ export default {
   },
   methods: {
     async fetchData() {
+    const data =  await getMessage(this.options);
 
-      return await getMessage(this.options);
+    if(typeof data == 'string'){
+      
+      return this.datas
+    }
+    data.rows.forEach(item => {
+      item.avatar=process.env.VUE_APP_SERVERPATH+item.avatar
+    });
+  
+      return data
+  
     },
     handlScroll(dom){
       if(this.isLoading ||!dom){
@@ -53,32 +70,38 @@ export default {
       }
       const range= 100
       const dec = Math.abs(dom.scrollTop+dom.clientHeight-dom.scrollHeight)
-      if(range>dec){
+      if(range > dec){
+       
       this.fetchMore()
 
       }
     },
 
     async fetchMore(){
-      if(this.datas.rows.length > this.datas.total){
+      if(!this.hasMore){
+       
         return
       }
+   
     this.options.page++
     this.isLoading=true
     const res= await getMessage(this.options);
-    this.datas.total=res.total
+    this.datas.count=res.count
     this.isLoading=false
     return this.datas.rows = this.datas.rows.concat(res.rows)
 
     },
 
   async  handleSbumit(formData,callback){
-         
+     
        const resp= await  postMessage({
             ...formData
             })
+        resp.avatar=process.env.VUE_APP_SERVERPATH+resp.avatar
+
+    
         this.datas.rows.unshift(resp)
-        this.datas.total++
+        this.datas.count++
         callback('评论成功')
     }
   },

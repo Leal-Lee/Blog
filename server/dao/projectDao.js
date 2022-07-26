@@ -8,6 +8,7 @@ const {
 
 // 添加Project
 exports.addProjectDao = async function (ProjectInfo) {
+ 
 
  const  data =  await Project.create(ProjectInfo)
  return data.toJSON()
@@ -46,11 +47,11 @@ exports.getOneProjectDao = async function (id) {
         },
     })
     
-    return result 
+    return result   
  }
   //修改Project
   exports.putProjectDao =async function (id,updateInfo) {
-      
+
 
  const result= await Project.update(updateInfo,{
         where:{

@@ -19,10 +19,12 @@ export default {
   computed: {
     // 重新定义数组，在数组中添加全部，文章总数，和id选项
     list() {
+  
       const articleCount = this.datas.reduce(
-        (pre, cur) => pre + cur.articleCount,
+        (pre, cur) =>  pre + parseInt(cur.articleCount),
         0
       );
+      console.log( articleCount)
       const result = [
         {
           name: "全部",

@@ -10,8 +10,10 @@ export async function getMessage({ page=1,limit=10,keyword=''} ){
   }
 
 
-  export  async function postMessage( ){
-    const data = await instance.post('/api/message',)
+  export  async function postMessage(data){
+
+
+    const datas = await instance.post('/api/message',data)
    
-    return data
+    return datas
   }

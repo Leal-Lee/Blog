@@ -12,12 +12,12 @@ const Blog = sequelize.define('Blog',{
         allowNull:false
     },
     htmlContent:{
-        type:DataTypes.STRING,
+        type:DataTypes.TEXT,
         allowNull:false
     },
     thumb:{
         type:DataTypes.STRING,
-        allowNull:false
+        allowNull:true
     },
     toc:{
         type:DataTypes.TEXT,
@@ -25,6 +25,10 @@ const Blog = sequelize.define('Blog',{
     },
     scanNumber:{
         type:DataTypes.INTEGER,
+        allowNull:false
+    },
+    isDraft:{
+        type:DataTypes.BOOLEAN,
         allowNull:false
     },
     commentNumber:{
@@ -36,7 +40,7 @@ const Blog = sequelize.define('Blog',{
     freezeTableName:true,
     updatedAt:false,
     createdAt:'createDate',
-    paranoid: true
+    // paranoid: true
 
 })
 

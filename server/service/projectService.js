@@ -11,21 +11,27 @@ const {handleToc}= require('../utils/handleToc')
 exports.getProjectsService=async function(){
   
   const  data= await  getProjectsDao()
-  
+
+
     return formatResqonse(0,'',data)
 }
 
 // 添加Project
 exports.addProjectService=async function(projectInfo,next){
 // 处理描述
+
+
+
 projectInfo.description=JSON.stringify(projectInfo.description)
+
+console.log(projectInfo.description)
 // 验证
  const results= projectValidate(projectInfo,next)
  if (results) return
 
 // 验证通过， 添加
   const  data= await addProjectDao(projectInfo)
- 
+
 
   return formatResqonse(0,'',data)
 
@@ -50,11 +56,21 @@ exports.deleteProject =async function(id){
 
 //修改
 exports.putProject =async function(id,updateInfo){
+if(updateInfo.description){
+  updateInfo.description=JSON.stringify(updateInfo.description)
+}
+  
+  const  result = await getOneProjectDao(id)
 
+  if(result && result.name== updateInfo.name && result.order== updateInfo.order&& result.description== updateInfo.description&& result.url== updateInfo.url&& result.github== updateInfo.github) 
+  {
+    return formatResqonse(0,'','数据未改变')
+  }
 
  await putProjectDao(id,updateInfo)
 
   const data =await getOneProjectDao(id)
+  
   
     return formatResqonse(0,'',data)
 }

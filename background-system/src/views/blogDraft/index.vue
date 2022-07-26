@@ -1,5 +1,5 @@
 <template>
-  <div class="bloglist-container">
+  <div class="banner-container">
     <el-table :data="newTableData" style="width: 100%" border>
       <!-- 序号 -->
       <el-table-column label="序号" width="60" >
@@ -52,7 +52,7 @@
               type="danger"
               icon="el-icon-delete"
               circle
-              @click="open(scope.$index,scope.row)"
+              @click="handleDelete(scope.$index,scope.row)"
             ></el-button>
           </el-tooltip>
         </template>
@@ -80,10 +80,10 @@
 </template>
 
 <script>
-import { getBlog, deleteBlog } from "@/api/blog.js";
+import { getDraftBlog, deleteBlog } from "@/api/blog.js";
 
 export default {
-  name: "BlogList",
+  name: "BlogDraft",
 
   data() {
     return {
@@ -109,13 +109,6 @@ export default {
   computed: {
     // 将表格数据中的图片地址拼接域名
     newTableData() {
-      // 这样做会导致图片加载不出来，每次加载都会拼接域名，原因是数组中的每一项是一个对象，这里只是新创建了一个数组，但是对象还是指向原来的地址
-      // let arr = [...this.tableData];
-      // arr.forEach((item) => {
-      //   item.midImg = process.env.VUE_APP_SERVERPATH + item.midImg;
-      //   item.bigImg = process.env.VUE_APP_SERVERPATH + item.bigImg;
-      // });
-
       let arr = [];
       this.tableData.forEach((item) => {
         const obj = {};
@@ -130,15 +123,15 @@ export default {
 
         arr.push(obj);
       });
-   
+
       return arr;
     },
   },
   methods: {
 
     async fetchData(query) {
-      this.blogs = await getBlog(query);
-     
+      this.blogs = await getDraftBlog(query);
+
       this.tableData = [...this.blogs.rows];
        
 
@@ -164,38 +157,6 @@ export default {
        this.fetchData(this.urlQuery)
 
     },
-
-    async open(index, row) {
-      try {
-        await this.$confirm("此操作将永久删除该文章，并一并删除对应评论, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        });
-       await deleteBlog(row.id)
-     
-      if(this.tableData.length==1 && this.currentPage>1){
-        this.currentPage--
-        this.urlQuery.page=this.currentPage
-        
-       }
-       this.fetchData(this.urlQuery)
-
-       
-        this.$message({
-          type: "success",
-          message: "删除成功!",
-        });
-      } catch {
-        this.$message({
-          type: "info",
-          message: "已取消删除",
-        });
-      }
-    },
-
-
-
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
         this.urlQuery.limit=val

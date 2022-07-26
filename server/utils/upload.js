@@ -38,7 +38,7 @@ const upload = multer({
   limits:{
     fileSize:1024*1024*2
   }
- }).single('banner')
+ }).single('thumb')
 
 
 module.exports= upload

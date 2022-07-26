@@ -16,7 +16,7 @@ exports.getSettingService=async function(){
  */
 
 exports.setSettingService=async function(updateInfo){
-
+    console.log(updateInfo)
     await  setSettingDao(updateInfo)
     const  data= await  getSettingDao()
 

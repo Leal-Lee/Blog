@@ -2,8 +2,9 @@
   <form class="data-form-container" @submit.prevent="handleSubmit">
     <div class="form-item">
       <div class="input-area">
-        <input type="text" maxlength="10" placeholder="用户昵称" v-model=" formData.nickname"/>
+        <input type="text" maxlength="10" placeholder="用户昵称" v-model="formData.nickname"/>
         <span class="tip">{{formData.nickname.length}}/10</span>
+        
       </div>
       <div class="error">{{error.nickname}}</div>
     </div>
@@ -45,14 +46,17 @@ export default {
 
   methods: {
     handleSubmit(){
+  
       this.error.nickname = this.formData.nickname ?'':'请填写昵称'
       this.error.content = this.formData.content ?'':'请填写内容'
       if(this.error.nickname||this.error.content){
         return
       }
+
       this.isSumbmiting=true;
-      this.$emit('submit', this.formData, (message)=>{
-    
+      const data={...this.formData}
+   
+      this.$emit('submit',data, (message)=>{
         this.$showMessage({
           content:message,
           type:'success',

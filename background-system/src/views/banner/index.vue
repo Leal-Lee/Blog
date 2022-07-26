@@ -60,12 +60,12 @@
       <el-row :gutter="0">
         <el-col :span="12">
           <div class="grid-content bg-purple">
-            <Upload subTitle="设置中图" name="banner"  v-model="form.midImg"  v-if="dialogFormVisible"/>
+            <Upload subTitle="设置中图" name="thumb"  v-model="form.midImg"  v-if="dialogFormVisible"/>
           </div>
         </el-col>
         <el-col :span="12">
           <div class="grid-content bg-purple">
-            <Upload subTitle="设置大图" name="banner"   v-model="form.bigImg"  v-if="dialogFormVisible"/>
+            <Upload subTitle="设置大图" name="thumb"   v-model="form.bigImg"  v-if="dialogFormVisible"/>
           </div>
         </el-col>
       </el-row>
@@ -154,6 +154,7 @@ export default {
     async handleSbumit() {
   
       const updataForm = {};
+      console.log(this.form)
       for (let item in this.form) {
         if (this.form[item]) {
           updataForm[item] = this.form[item];
@@ -174,22 +175,6 @@ export default {
   },
 };
 </script>
-<style lang="scss" >
-.upload-container {
-  .avatar-uploader {
-    .el-upload {
-      width: 100%;
-      height: 50px;
-      border: none;
-      .el-upload-dragger {
-        width: 100%;
-        height: 100%;
-        border: none;
-        line-height: 50px;
-      }
-    }
-  }
-}
-</style>
+
 <style lang="scss" scoped>
 </style>

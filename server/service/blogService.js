@@ -1,5 +1,6 @@
-const {addBlogDao,getBlogsDao,getOneBlogDao,deleteBlogDao,putBlogDao} = require('../dao/blogDao')
+const {addBlogDao,getBlogsDao,getOneBlogDao,deleteBlogDao,putBlogDao,getDraftBlogsDao} = require('../dao/blogDao')
 const {putBlogTypeDao,getOneBlogTypeDao}=require('../dao/blogTypeDao')
+const {deleteMessageDao}=require('../dao/messageDao')
 const {formatResqonse}= require('../utils/tool')
 const {blogValidate} =require('../utils/validate')
 const {ValidationError} =require('../utils/error')
@@ -15,14 +16,23 @@ exports.getBlogsService=async function(query){
     return formatResqonse(0,'',data)
 }
 
+// 分页获取草稿箱博客
+exports.getDraftBlogsService=async function(query){
+  
+  const  data= await  getDraftBlogsDao(query)
+  
+    return formatResqonse(0,'',data)
+}
+
 // 添加博客
 exports.addBlogService=async function(blogInfo,next){
 // 处理TOC
-console.log(`${blogInfo.markdownContent}`)
+
 blogInfo.toc= handleToc(`${blogInfo.markdownContent}`)
 blogInfo.scanNumber=0
 blogInfo.commentNumber=0
  // 修改分类中的文章数量
+ 
  let result =await  getOneBlogTypeDao(blogInfo.categoryId)
  
  if(!result){
@@ -30,19 +40,17 @@ blogInfo.commentNumber=0
  result =await getOneBlogTypeDao(0,'未分类')
  blogInfo.categoryId = 1
  }
-
  result.articleCount++
-
-
  await putBlogTypeDao(result.id,result)
 // 验证
+
  const results= blogValidate(blogInfo,next)
+
  if (results) return
 
 // 验证通过， 添加
-  const  data= await addBlogDao(blogInfo)
- 
 
+  const  data= await addBlogDao(blogInfo)
   return formatResqonse(0,'',data)
 
 }
@@ -70,7 +78,7 @@ console.log(err)
 
 
 //删除
-exports.deleteBlog =async function(id){
+exports.deleteBlogService =async function(id){
   try{
     const oldAtc= await getOneBlogDao(id) //删除前的文章
     if(!oldAtc){
@@ -78,11 +86,11 @@ exports.deleteBlog =async function(id){
     }
     const oldType =await getOneBlogTypeDao(oldAtc.category.id)//删除前的分类
     oldType.articleCount--
-  
+    
   //  修改分类，文章数量减少
     await putBlogTypeDao(oldType.id,oldType)
    //删除该博客下的所有评论
-  //  await deleteMessageDao(id)
+    await deleteMessageDao(id)
 
 
     const  data = await  deleteBlogDao(id)
@@ -96,8 +104,10 @@ exports.deleteBlog =async function(id){
 }
 
 //修改
-exports.putBlog =async function(id,updateInfo){
+exports.putBlogService =async function(id,updateInfo){
+  console.log(updateInfo,1111111111)
   updateInfo.toc=handleToc(updateInfo.toc)
+
  const oldAtc= await getOneBlogDao(id)  //修改前的文章
  const result = await putBlogDao(id,updateInfo)
  console.log(result)

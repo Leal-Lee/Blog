@@ -60,7 +60,19 @@ export const constantRoutes = [
       meta: { title: '控制台', icon: 'dashboard' }
     }]
   },
-
+// 首页
+{
+  path: '/banner',
+  component: Layout,
+  children: [
+    {
+      path: 'index',
+      name: 'Banner',
+      component: () => import('@/views/banner/index'),
+      meta: { title: '首页标语', icon: 'el-icon-notebook-2' }
+    }
+  ]
+},
 // 博客管理
 {
   path: '/blog',
@@ -68,7 +80,7 @@ export const constantRoutes = [
   redirect: '/blog/blogList',
   name: 'Blog',
 
-  meta: { title: '博客管理', icon: 'el-icon-s-help' },
+  meta: { title: '文章管理', icon: 'el-icon-s-help' },
   children: [
     {
       path: 'blogList',
@@ -76,44 +88,69 @@ export const constantRoutes = [
       component: () => import('@/views/blogList/index'),
       meta: { title: '文章列表', icon: 'blogList' }
     },
+
     {
-      path: 'addBlog',
-      name: 'AddBlog',
-      component: () => import('@/views/addBlog/index'),
-      meta: { title: '添加博客', icon: 'addBlog' }
+      path: '/addBlog',
+      name: 'EditBlog',
+      component: () => import('@/views/editBlog/index'),
+      meta: { title: '添加文章', icon: 'editBlog' }
+    },
+    {
+      path: '/editBlog/:blogId',
+      name: 'EditBlog',
+      hidden: true ,
+      component: () => import('@/views/editBlog/index'),
+      meta: { title: '编辑文章', icon: 'editBlog' }
     },
     {
       path: 'blogType',
       name: 'BlogType',
       component: () => import('@/views/blogType/index'),
-      meta: { title: '博客类型', icon: 'addBlog' }
-    }
+      meta: { title: '文章分类', icon: 'editBlog' }
+    },
+    {
+      path: 'blogDraft',
+      name: 'BlogDraft',
+      component: () => import('@/views/blogDraft/index'),
+      meta: { title: '草稿箱', icon: 'blogDraft' }
+    },
   ]
 },
 // 项目管理
 {
   path: '/projects',
   component: Layout,
-  redirect: '/project/blogList',
-  name: 'Projects',
+  redirect: '/project/projectList',
   meta: { title: '项目管理', icon: 'el-icon-s-help' },
   children: [
     {
       path: 'projectList',
       name: 'ProjectList',
-      component: () => import('@/views/blogList/index'),
+      component: () => import('@/views/projectList/index'),
       meta: { title: '项目列表', icon: 'blogList' }
     },
     {
       path: 'addProject',
       name: 'AddProject',
-      component: () => import('@/views/addBlog/index'),
-      meta: { title: '添加项目', icon: 'addBlog' }
+      component: () => import('@/views/addProject/index'),
+      meta: { title: '添加项目', icon: 'addProject' }
     },
 
   ]
 },
-
+// 评论
+{
+  path: '/comment',
+  component: Layout,
+  children: [
+    {
+      path: 'index',
+      name: 'Comment',
+      component: () => import('@/views/comment/index'),
+      meta: { title: '评论管理', icon: 'el-icon-notebook-2' }
+    }
+  ]
+},
 // 留言板
 {
   path: '/message',
@@ -124,19 +161,6 @@ export const constantRoutes = [
       name: 'Message',
       component: () => import('@/views/message/index'),
       meta: { title: '留言板', icon: 'el-icon-notebook-2' }
-    }
-  ]
-},
-// 设置
-{
-  path: '/set',
-  component: Layout,
-  children: [
-    {
-      path: 'index',
-      name: 'Set',
-      component: () => import('@/views/set/index'),
-      meta: { title: '设置', icon: 'el-icon-notebook-2' }
     }
   ]
 },
@@ -153,32 +177,22 @@ export const constantRoutes = [
     }
   ]
 },
-// 关于
+
+// 设置
 {
-  path: '/banner',
+  path: '/setting',
   component: Layout,
   children: [
     {
       path: 'index',
-      name: 'Banner',
-      component: () => import('@/views/banner/index'),
-      meta: { title: '首页标语', icon: 'el-icon-notebook-2' }
+      name: 'Set',
+      component: () => import('@/views/setting/index'),
+      meta: { title: '设置', icon: 'el-icon-notebook-2' }
     }
   ]
 },
-// 评论
-{
-  path: '/comment',
-  component: Layout,
-  children: [
-    {
-      path: 'index',
-      name: 'Comment',
-      component: () => import('@/views/comment/index'),
-      meta: { title: '评论', icon: 'el-icon-notebook-2' }
-    }
-  ]
-},
+
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

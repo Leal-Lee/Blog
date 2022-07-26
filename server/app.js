@@ -46,7 +46,7 @@ app.use(jwt({
   {url:"/api/setting",method:'GET'},
   {url:"/api/about",method:'GET'},
   {url:"/api/project",method:'GET'},
-  {url:"/api/blogtype",method:'GET'},
+  {url:"/api/blogType",method:'GET'},
   {url:"/api/message",method:['GET','POST']},
   {url:"/api/comment",method:['GET','POST']},
   {url:/^\/api\/blog(\/(\d+)?)?$/,method:'GET'},
@@ -63,7 +63,7 @@ app.use('/api/banner', bannerRouter);
 app.use('/api/setting', settingRouter);
 app.use('/api/about', aboutRouter);
 app.use('/api/delete',deleteMiddleware)
-app.use('/api/blogtype', blogTypeRouter);
+app.use('/api/blogType', blogTypeRouter);
 app.use('/api/blog', blogRouter);
 app.use('/api/project', projectRouter);
 app.use('/api/message', messageRouter);

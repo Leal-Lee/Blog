@@ -7,7 +7,7 @@ const {
 
 // 设置
 exports.setAboutDao = async function (updateInfo) {
-
+console.log(updateInfo,1111)
    await About.update(updateInfo,{
        where:{
            id:1

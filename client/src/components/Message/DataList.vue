@@ -6,7 +6,6 @@
         <div class="nickname">
           <span>{{item.nickname}}</span>
           <span class="createDate">{{item.createDate}}</span>
-
         </div>
         <div class="content">{{item.content}}</div>
       </div>
@@ -18,21 +17,16 @@
 import Avatar from "@/components/Avatar.vue";
 export default {
   name: "BlogDatalist",
-  props:{    commentList:{
-      type:Array,
-      default:()=>[]
-    },},
+  props: {
+    commentList: {
+      type: Array,
+      default: () => [],
+    },
+  },
 
   components: {
     Avatar,
   },
-  data() {
-    return {};
-  },
-
-  mounted() {},
-
-  methods: {},
 };
 </script>
 
@@ -43,7 +37,7 @@ export default {
     .flex(flex-start,center);
     min-height: 100px;
     border-bottom: 1px dashed @gray;
-    margin:10px  30px ;
+    margin: 10px 30px;
     position: relative;
     .data {
       margin: 0 10px;
@@ -51,17 +45,16 @@ export default {
         font-size: 18px;
         font-weight: 600;
         color: rgb(56, 101, 222);
-        margin:10px 0 ;
-        .createDate{
+        margin: 10px 0;
+        .createDate {
           position: absolute;
           right: 0;
-        color:@gray;
-        font-size: 14px;
+          color: @gray;
+          font-size: 14px;
         }
-
       }
       .content {
-        flex:1 1 auto;
+        flex: 1 1 auto;
         font-size: 16px;
         font-weight: 500;
       }

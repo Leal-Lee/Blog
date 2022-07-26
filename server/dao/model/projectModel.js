@@ -16,7 +16,7 @@ const Project = sequelize.define('Project',{
     },
     thumb:{
         type:DataTypes.STRING,
-        allowNull:false
+        
     },
     github:{
         type:DataTypes.STRING,
@@ -30,9 +30,6 @@ const Project = sequelize.define('Project',{
 
 },{
     freezeTableName:true,
-    updatedAt:false,
-    createdAt:'createDate',
-    paranoid: true
 })
 
 

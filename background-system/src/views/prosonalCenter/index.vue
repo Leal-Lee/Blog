@@ -1,5 +1,5 @@
 <template>
-  <div class="set-container">
+  <div class="about-container">
     <el-form :model="form" ref="form" :rules="rules" class="editBlog-from">
       <!-- 标题 -->
       <el-form-item label="关于我"  prop="url">
@@ -19,7 +19,7 @@ import {
  getAbout
 } from "@/api/about.js";
 export default {
-  name: "About",
+    name: 'prosonalCenter',
   data() {
     return {    
       isEidt:true,
@@ -58,6 +58,7 @@ export default {
       this.form.url = await getAbout();
     },
   },
+
 };
 </script>
 

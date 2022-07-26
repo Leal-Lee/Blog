@@ -9,11 +9,13 @@ const path=require('path')
 
 // 获取Message
 exports.getMessagesService=async function(query){
-  
+ 
   let  data= await  getMessagesDao(query)
+  
    if(data.count==0){
       data='该用户不存在，或者没有留言'
    }
+   
     return formatResqonse(0,'',data)
 }
 
@@ -39,6 +41,7 @@ if( result )throw new ValidationError('昵称已存在，请更换')
 
 
 // 验证
+
  const results= messageValidate(messageInfo,next)
  if (results) return
 

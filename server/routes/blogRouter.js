@@ -1,13 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
-const {addBlog,getBlogs,getOneBlog,deleteBlog,putBlog} =require('./api/blog')
+const {addBlog,getBlogs,getOneBlog,deleteBlog,putBlog,getDraftBlogs} =require('./api/blog')
 /**
  * 设置博客
  */
 router.post('/',addBlog);
 // 分页获取博客
 router.get('/',getBlogs);
+// 分页获取草稿箱博客
+router.get('/draft',getDraftBlogs);
 
 // 获取某一类博客 
 router.get('/:id',getOneBlog);
@@ -17,5 +19,7 @@ router.delete('/:id',deleteBlog);
 
 // 修改某一类博客
 router.put('/:id',putBlog);
+
+
 
 module.exports = router;

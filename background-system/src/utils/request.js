@@ -14,7 +14,7 @@ const service = axios.create({
 service.interceptors.request.use(
 
   req=> {
-
+    
   
     return req
 
@@ -32,7 +32,7 @@ service.interceptors.response.use(
 
       setToken(response.headers.authentication)
     }
-
+   
   return response.data.data
 
     // // if the custom code is not 20000, it is judged as an error.

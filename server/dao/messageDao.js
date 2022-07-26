@@ -48,12 +48,11 @@ exports.getOneMessageDao = async function (id=0,nickname='') {
 
 // 分页获取
  exports.getMessagesDao = async function ({page=1,limit=10,keyword='',blogId=null}) {
+ 
   
     try{
-        // 如果带了blogId参数，则查询的是文章评论，按照文章id查询
-        
+       // 没带blogId参数，则如果有关键字则按照关键字（昵称）查询
         if(keyword!=''){
-            
             const result = await Message.findAndCountAll({ 
                 where:{
                     nickname:keyword
@@ -73,14 +72,37 @@ exports.getOneMessageDao = async function (id=0,nickname='') {
 
             return result ? result:null
         }
-        // 没带blogId参数，则如果有关键字则按照关键字查询
-        const result = await Message.findAndCountAll({ 
+        // blogId='comments',查询全部评论
+        if(blogId=='comments'){
+           
+            const result = await Message.findAndCountAll({ 
+                attributes: { exclude: ['deletedAt','bolgId'] },
+                order:[['createDate', 'DESC']],
+                offset:(page-1)*(+limit), 
+                limit:+limit,
+                where:{
+                    blogId:{
+                        [Op.ne]: null, 
+                    }
+            },
+            })
+      
+            return result ? result:null
+        }
+
+
+         // 如果带了blogId=null，则查询的是全部留言
+        //  如果带了blogId是数字，则查询的是某一篇文章评论
+
+
+
+         const result = await Message.findAndCountAll({ 
             attributes: { exclude: ['deletedAt','bolgId'] },
             order:[['createDate', 'DESC']],
             offset:(page-1)*(+limit), 
             limit:+limit,
+            raw: true,
             where:{
-                   
                     blogId
             },
             include: [
@@ -92,8 +114,12 @@ exports.getOneMessageDao = async function (id=0,nickname='') {
     
                }]
         })
+
   
+
         return result ? result:null
+   
+
 
 
     }catch(err){

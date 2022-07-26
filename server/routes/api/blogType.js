@@ -27,7 +27,7 @@ exports.addBlogType=async function(req, res, next) {
 //设置某要一个博客分类
    exports.getOneBlogType=async function(req, res, next) {
         // 验证
-
+      
     const data= await getOneBlogTypeService(req.params.id)
 
      res.send(data)
@@ -45,11 +45,11 @@ exports.addBlogType=async function(req, res, next) {
 
    //修改分类
    exports.putBlogType=async function(req, res, next) {
-
+   
 // 验证通过
 try{
    const data= await putBlogType(req.params.id,req.body,next)
-
+  
    res.send(data)
 }catch(err){
    next(err)

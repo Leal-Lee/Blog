@@ -21,6 +21,11 @@ export default {
   
       cxt.commit('setLoading',true)
       const resp = await getSetting()
+    
+      resp.avatar=process.env.VUE_APP_SERVERPATH+resp.avatar
+      resp.qqQrCode=process.env.VUE_APP_SERVERPATH+resp.qqQrCode
+      resp.weixinQrCode=process.env.VUE_APP_SERVERPATH+resp.weixinQrCode
+      resp.favicon=process.env.VUE_APP_SERVERPATH+resp.favicon
       cxt.commit('setLoading',false)
       cxt.commit('setSetting',resp)
       const link = document.querySelector('link[rel="shortcut icon"]')
